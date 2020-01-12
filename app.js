@@ -9,3 +9,24 @@ GAME RULES:
 
 */
 
+var scores, roundScore, activePlayer, dice;
+
+scores = [0, 0];
+roundScore = 0;
+// 0 is a FirstPlayer, 1 is a SecondPlayer
+activePlayer = 1;
+// dice - hold random number for 1 to 6.
+dice = Math.floor(Math.random() * 6) + 1;
+console.log("dice = " + dice);
+
+// set value to htlm element. Use # if referece to css id name
+document.querySelector('#current-' + activePlayer).textContent = dice;
+// document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
+
+// get value from htlm element. Use # if referece to css id name
+var x = document.querySelector('#score-0').textContent;
+console.log(x);
+
+// use . if referece to css class name
+document.querySelector('.dice').style.display = 'none';
+
