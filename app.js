@@ -9,24 +9,72 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, dice;
+var scores, roundScore, activePlayer;
 
 scores = [0, 0];
 roundScore = 0;
-// 0 is a FirstPlayer, 1 is a SecondPlayer
-activePlayer = 1;
-// dice - hold random number for 1 to 6.
-dice = Math.floor(Math.random() * 6) + 1;
-console.log("dice = " + dice);
-
-// set value to htlm element. Use # if referece to css id name
-document.querySelector('#current-' + activePlayer).textContent = dice;
-// document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
-
-// get value from htlm element. Use # if referece to css id name
-var x = document.querySelector('#score-0').textContent;
-console.log(x);
+activePlayer = 0; // 0 is a FirstPlayer, 1 is a SecondPlayer
 
 // use . if referece to css class name
 document.querySelector('.dice').style.display = 'none';
 
+// For getting html elements by theirs id we can use getElementById instead querySelector.
+// In that case we dont need to add # for id name.
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+
+document.querySelector('.btn-roll').addEventListener('click', function() {
+    
+    // 1. Random number
+    // dice - hold random number for 1 to 6.
+    var dice = Math.floor(Math.random() * 6) + 1;
+    console.log('dice = ' + dice);
+
+    //2. Display the result
+    var diceDOM = document.querySelector('.dice');
+    diceDOM.style.display = 'block';
+    diceDOM.src = 'dice-' + dice + '.png';
+
+
+    // 3. Update the round score IF the rolled number was NOT a 1
+    if (dice > 1)
+    {
+        // Add score
+        roundScore += dice;
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    }
+    else
+    {        
+        // Next player
+        activePlayer = activePlayer === 0 ? 1 : 0;
+        roundScore = 0;
+
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+
+        // classList.toggle. If class name exist then remove it. if isnt then add it
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+
+        // remove , add class name from html element
+        // document.querySelector('.player-0-panel').classList.remove('active');
+        // document.querySelector('.player-1-panel').classList.add('active');
+
+        diceDOM.style.display = 'none';
+        //document.querySelector('.dice').style.display = 'none';
+    }
+
+});
+
+
+
+
+
+// set value to htlm element. Use # if referece to css id name
+//document.querySelector('#current-' + activePlayer).textContent = dice;
+// document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
+
+// get value from htlm element. Use # if referece to css id name
+//var x = document.querySelector('#score-0').textContent;
