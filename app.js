@@ -35,7 +35,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     //2. Display the result
     var diceDOM = document.querySelector('.dice');
     diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-' + dice + '.png';
+    diceDOM.src = 'dice-' + dice + '.png';    
 
 
     // 3. Update the round score IF the rolled number was NOT a 1
@@ -46,27 +46,56 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     }
     else
-    {        
+    {   
         // Next player
-        activePlayer = activePlayer === 0 ? 1 : 0;
-        roundScore = 0;
-
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-
-        // classList.toggle. If class name exist then remove it. if isnt then add it
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-
-        // remove , add class name from html element
-        // document.querySelector('.player-0-panel').classList.remove('active');
-        // document.querySelector('.player-1-panel').classList.add('active');
-
-        diceDOM.style.display = 'none';
-        //document.querySelector('.dice').style.display = 'none';
+        nextPlayer();
     }
-
 });
+
+document.querySelector('.btn-hold').addEventListener('click', () => {
+    // Add CURRENT score to GLOBAL score
+    scores[activePlayer] += roundScore;
+    console.log('scores[0] = ' + scores[0]);
+    console.log('scores[1] = ' + scores[1]);    
+
+    // Update the UI
+    // change active player score nmber
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];    
+    
+    // Check if player won the game.
+    if (scores[activePlayer] > 19) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+        // remove dice
+        document.querySelector('.dice').style.display = 'none';
+        // remove active style from current player        
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+    }
+    else
+    {
+        // Next player
+        nextPlayer();
+    }
+});
+
+function nextPlayer() {
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    roundScore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';        
+    
+
+    // classList.toggle. If class name exist then remove it. if isnt then add it
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+
+    // remove , add class name from html element
+    // document.querySelector('.player-0-panel').classList.remove('active');
+    // document.querySelector('.player-1-panel').classList.add('active');
+
+    document.querySelector('.dice').style.display = 'none';
+}
 
 
 
