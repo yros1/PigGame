@@ -11,19 +11,7 @@ GAME RULES:
 
 var scores, roundScore, activePlayer;
 
-scores = [0, 0];
-roundScore = 0;
-activePlayer = 0; // 0 is a FirstPlayer, 1 is a SecondPlayer
-
-// use . if referece to css class name
-document.querySelector('.dice').style.display = 'none';
-
-// For getting html elements by theirs id we can use getElementById instead querySelector.
-// In that case we dont need to add # for id name.
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
+init();
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
     
@@ -78,6 +66,8 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
     }
 });
 
+document.querySelector('.btn-new').addEventListener('click', init);
+
 function nextPlayer() {
     activePlayer = activePlayer === 0 ? 1 : 0;
     roundScore = 0;
@@ -95,6 +85,29 @@ function nextPlayer() {
     // document.querySelector('.player-1-panel').classList.add('active');
 
     document.querySelector('.dice').style.display = 'none';
+}
+
+function init() {
+    scores = [0, 0];
+    roundScore = 0;
+    activePlayer = 0; // 0 is a FirstPlayer, 1 is a SecondPlayer
+
+    // use . if referece to css class name
+    document.querySelector('.dice').style.display = 'none';
+
+    // For getting html elements by theirs id we can use getElementById instead querySelector.
+    // In that case we dont need to add # for id name.
+    document.getElementById('score-0').textContent = '0';
+    document.getElementById('score-1').textContent = '0';
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    document.getElementById('name-0').textContent = 'Player 1';
+    document.getElementById('name-1').textContent = 'Player 2';
+    document.querySelector('.player-0-panel').classList.remove('winner');
+    document.querySelector('.player-1-panel').classList.remove('winner');
+    document.querySelector('.player-0-panel').classList.remove('active');    
+    document.querySelector('.player-1-panel').classList.remove('active');
+    document.querySelector('.player-0-panel').classList.add('active');
 }
 
 
