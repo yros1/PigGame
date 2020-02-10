@@ -9,17 +9,20 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, rollCounter, dice, savedDice;
+savedDice = 0;
 
 init();
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
-    if (gamePlaying)
-    {
+    if (gamePlaying) {
         // 1. Random number
         // dice - hold random number for 1 to 6.
-        var dice = Math.floor(Math.random() * 6) + 1;
-        console.log('dice = ' + dice);
+        dice = Math.floor(Math.random() * 6) + 1;
+
+        //dice = 6;
+        console.log('\nInit dice = ' + dice);
+        console.log('Init savedDice = ' + savedDice);
 
         //2. Display the result
         var diceDOM = document.querySelector('.dice');
@@ -29,9 +32,50 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         // 3. Update the round score IF the rolled number was NOT a 1
         if (dice > 1)
         {
-            // Add score
-            roundScore += dice;
-            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            if ( dice === 6) {
+                // player lose points, change a player, resed savedDice
+                if (savedDice === dice) {
+                    // second time roll 6
+                    // reset savedDice and rollCounter
+                    dice = 0;
+                    savedDice = 0;
+                    console.log("\n Second 6 roll:: Reset savedDice:" + savedDice);
+                    console.log('After dice = ' + dice);
+                    console.log('After savedDice = ' + savedDice);
+                    // lose point and update score for current player
+                    scores[activePlayer] = 0;
+                    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+                    // change player
+                    nextPlayer();
+                }    
+                // save dice because it is 6, we need to count it
+                else {
+                    // first time roll 6
+                    savedDice = dice;
+                    console.log("\n First 6 roll:: Save savedDice:" + savedDice);
+                    console.log('After dice = ' + dice);
+                    console.log('After savedDice = ' + savedDice);
+                    // Add score
+                    roundScore += dice;
+                    document.querySelector('#current-' + activePlayer).textContent = roundScore;
+                } 
+            } 
+            else {
+                // reset saved dice, when first time hit 6 but second time not.
+                if (savedDice === 6){
+                    savedDice = 0;
+                    console.log("\n No 6 on second roll:: Reset savedDice:" + savedDice);
+                    console.log('After dice = ' + dice);
+                    console.log('After savedDice = ' + savedDice);
+                }
+                // Add score
+                roundScore += dice;
+                document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            }
+
+            // // Add score
+            // roundScore += dice;
+            // document.querySelector('#current-' + activePlayer).textContent = roundScore;
         }
         else
         {   
@@ -42,6 +86,10 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 });
 
 document.querySelector('.btn-hold').addEventListener('click', () => {
+    savedDice = 0;
+    console.log('Hold After dice = ' + dice);
+    console.log('Hold After savedDice = ' + savedDice);
+
     if (gamePlaying) 
     {
         // Add CURRENT score to GLOBAL score
