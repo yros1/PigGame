@@ -9,10 +9,16 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, gamePlaying, rollCounter, dice, savedDice;
+var scores, roundScore, activePlayer, gamePlaying, rollCounter, dice, savedDice, winningScore;
+winningScore = 20;
 savedDice = 0;
 
 init();
+
+document.querySelector('#winning-score').addEventListener('input', function() {
+    winningScore = document.querySelector('#winning-score').value;
+    console.log("winningScore " + winningScore);
+});
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
     if (gamePlaying) {
@@ -102,7 +108,7 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];    
         
         // Check if player won the game.
-        if (scores[activePlayer] > 19) {
+        if (scores[activePlayer] > winningScore) {
             document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
             // remove dice
             document.querySelector('.dice').style.display = 'none';
@@ -146,6 +152,10 @@ function init() {
     roundScore = 0;
     activePlayer = 0; // 0 is a FirstPlayer, 1 is a SecondPlayer
     gamePlaying = true;
+
+    // set winning score
+    document.querySelector('#winning-score').value = winningScore;
+    console.log("winningScore is " + winningScore);
 
     // use . if referece to css class name
     document.querySelector('.dice').style.display = 'none';

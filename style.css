@@ -103,6 +103,33 @@ body {
     font-size: 30px;
 }
 
+.set-winning-score {
+    position: absolute;    
+    text-align: center;
+    width: 100%;    
+}
+
+.set-winning-score label {
+    text-transform: uppercase;
+    margin: 2px;
+    font-family: Lato;
+    font-size: 20px;
+    color: #222;
+}
+
+.set-winning-score input {
+    width: 50px;
+    color: #555;
+    background: none;
+    margin: 2px;
+    font-family: Lato;
+    font-size: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 300;
+}
+
+
 button {
     position: absolute;
     width: 200px;
